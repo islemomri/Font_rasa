@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sidebar Menu with PrimeIcons</title>
+  <!-- Linking PrimeIcons -->
+  <link rel="stylesheet" href="https://unpkg.com/primeicons/primeicons.css" />
+  <!-- Linking CSS file -->
+  <link rel="stylesheet" href="sidebar.css" />
+</head>
+
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="/home"><img src="assad.png" alt="logo" /></a>
+      <h2>RH ASSAD</h2>
+    </div>
+    
+    <ul class="sidebar-links">
+      <!-- Section Administration -->
+       <div *ngIf="isAdmin() || isSuperAdmin()">
+      <h4>
+        <span>Administration</span>
+        <div class="menu-separator"></div>
+      </h4>
+      <li >
+        <a href="/dashboard">
+          <i class="pi pi-chart-bar"></i> Dashboard
+        </a>
+      </li>
+      <li>
+        <a href="/signup">
+          <i class="pi pi-user-plus"></i> Ajouter un utilisateur
+        </a>
+      </li>
+      <li >
+        <a href="/list-utilisateurs">
+          <i class="pi pi-users"></i> Liste des utilisateurs
+        </a>
+      </li>
+
+      </div>
+      <!-- Section Ressources Humaines -->
+      <h4 *ngIf="isRH()">
+        <span>Ressources Humaines</span>
+        <div class="menu-separator"></div>
+      </h4>
+      <li *ngIf="isRH()">
+        <a href="/list-employe-existants">
+           <i class="pi pi-user"></i> Employés importés
+        </a>
+      </li>
+      <li *ngIf="isRH()">
+        <a href="/ListeEmploye">
+           <i class="pi pi-users"></i> Employés intégrés
+        </a>
+      </li>
+      <li *ngIf="isRH()">
+        <a href="/list-Poste">
+          <i class="pi pi-briefcase"></i> Les postes
+        </a>
+      </li>
+      <li *ngIf="isRH()">
+        <a href="list-site">
+          <i class="pi pi-building"></i> Les Sites
+        </a>
+      </li>
+      <li *ngIf="isRH()">
+        <a href="list-directions">
+          <i class="pi pi-sitemap"></i> Les Directions
+        </a>
+      </li>
+
+      <!-- Section Compétences -->
+      <h4 *ngIf="isRH()">
+        <span>Compétences</span>
+        <div class="menu-separator"></div>
+      </h4>
+      <li *ngIf="isRH()">
+        <a href="/competences">
+          <i class="pi pi-star"></i> Compétences 
+        </a>
+      </li>
+<li *ngIf="isRH()">
+  <a href="/chatbot">
+    <i class="pi pi-comments"></i> Chatbot
+  </a>
+</li>
+
+
+            <!-- Section Communication -->
+            <h4>
+              <span>Communication</span>
+              <div class="menu-separator"></div>
+            </h4>
+            <li *ngIf="isRH() || isResponsable()">
+              <a href="/notifications">
+                <i class="pi pi-bell text-3xl" 
+                   pBadge 
+                   [value]="unreadNotificationsCount" 
+                   [severity]="'danger'"
+                   *ngIf="unreadNotificationsCount > 0"></i>
+                <i class="pi pi-bell text-3xl" *ngIf="unreadNotificationsCount === 0"></i>
+                Notifications
+              </a>
+            </li>
+            <li>
+              <a href="/messages" class="messagerie-item">
+                <i class="pi pi-inbox"></i>
+                Messagerie
+                <span *ngIf="unreadMessagesCount > 0" class="message-badge">
+                  {{ unreadMessagesCount }}
+                </span>
+              </a>
+            </li>
+      
+      
+      
+      <!-- Section Formations -->
+      <h4 *ngIf="isRH() || isResponsable()">
+        <span>Formations</span>
+        <div class="menu-separator"></div>
+      </h4>
+      <li *ngIf="isRH()">
+        <a href="formations">
+          <i class="pi pi-desktop"></i> Les Formations
+        </a>
+      </li>
+      <li *ngIf="isResponsable()">
+        <a href="formations-responsable">
+          <i class="pi pi-building"></i> Les formations
+        </a>
+      </li>
+      
+      <!-- Section Diplômes -->
+      <h4 *ngIf="isRH()">
+        <span>Diplômes</span>
+        <div class="menu-separator"></div>
+      </h4>
+      <li *ngIf="isRH()">
+        <a href="/gerer-diplomes">
+          <i class="pi pi-graduation-cap"></i> Les Diplômes
+        </a>
+      </li>
+      <li *ngIf="isRH()">
+        <a href="/list-types">
+          <i class="pi pi-list"></i> Catégories des Diplômes
+        </a>
+      </li>
+      
+      <!-- Section Gestion -->
+      <h4 *ngIf="isAdmin() || isRH() || isDirecteur()">
+        <span>Gestion</span>
+        <div class="menu-separator"></div>
+      </h4>
+      <li *ngIf="isAdmin() || isSuperAdmin()">
+        <a href="/gestion-permissions">
+          <i class="pi pi-check-circle"></i> Permissions
+        </a>
+      </li>
+      <li *ngIf="isRH()">
+        <a href="/reporting">
+          <i class="pi pi-chart-bar"></i> Reporting
+        </a>
+      </li>
+      <li *ngIf="isRH()">
+        <a href="archive">
+          <i class="pi pi-folder"></i> Archive
+        </a>
+      </li>
+         <li *ngIf="isRH()">
+        <a href="habilite">
+          <i class="pi pi-key"></i> les Habilitations
+        </a>
+      </li>
+
+      
+      <!-- Section Compte -->
+      <h4>
+        <span>Mon Compte</span>
+        <div class="menu-separator"></div>
+      </h4>
+      <li>
+        <a (click)="logout()" style="cursor: pointer;">
+          <i class="pi pi-sign-out"></i> Déconnexion
+        </a>
+      </li>
+    </ul>
+    
+    <div class="user-account">
+      <div class="user-profile">
+        <img src="/assets/user.png" alt="Profile Image" style="width: 120px; height: 80px;" />
+        <div class="user-detail">
+          <h3>{{ userDetails.prenom }} {{ userDetails.nom }}</h3>
+          <span>
+            <span *ngIf="isRH()">RH ASSAD</span>
+            <span *ngIf="isAdmin()">ADMIN ASSAD</span>
+            <span *ngIf="isDirecteur()">DIRECTEUR ASSAD</span>
+            <span *ngIf="isResponsable()">RESPONSABLE ASSAD</span>
+            <span *ngIf="isSuperAdmin()">SUPER ADMIN ASSAD</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </aside>
+</body>
+
+</html>
